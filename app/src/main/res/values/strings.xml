@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Pop Movies</string>
+    <string name="api_key">{PUT YOUR KEY HERE}</string>
+    <string name="api_base_url">https://api.themoviedb.org/3/</string>
+    <string name="api_base_url_for_images">https://image.tmdb.org/t/p/w342</string>
+    <string name="api_default_language">en</string>
+    <string name="title_popular">Popular</string>
+    <string name="title_top_rated">Top Rated</string>
+    <string name="title_detail_activity">Details</string>
+    <string name="movie_not_found_error">Movie not found, try with other movie.</string>
+    <string name="label_rating">%.1f / 10</string>
+    <string name="image_cover_description">Image cover of some movie</string>
+    <string name="network_error">Internet connection not available, check your connection and try again</string>
+    <string name="retry">Try Again</string>
+
+</resources>

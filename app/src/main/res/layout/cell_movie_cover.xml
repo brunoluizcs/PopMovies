@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ImageView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/iv_movie_cover"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/image_cover_height"
+    android:scaleType="centerCrop"
+    android:contentDescription="@string/image_cover_description"
+    android:background="@android:color/black"/>
+
+
