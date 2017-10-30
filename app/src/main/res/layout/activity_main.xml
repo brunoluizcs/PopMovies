@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge
+<FrameLayout
     android:id="@+id/activity_main"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,7 +10,8 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_movie_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:background="@android:color/black"/>
 
     <ProgressBar
         android:id="@+id/pb_loading_indicator"
@@ -27,6 +28,7 @@
         android:text="@string/no_data_available"
         android:layout_gravity="center"
         android:visibility="gone"
+        android:textColor="@android:color/white"
         style="@style/Base.TextAppearance.AppCompat.Large"/>
 
-</merge>
+</FrameLayout>

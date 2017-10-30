@@ -6,12 +6,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingTop="@dimen/vertical_margin">
 
+    <ImageView
+        android:id="@+id/image_button_trailer"
+        android:contentDescription="@string/button_trailer_description"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="@dimen/button_play_size"
+        android:layout_height="@dimen/button_play_size"
+        android:src="@drawable/btn_play_trailer"
+        android:scaleType="fitXY"
+        android:clickable="true"/>
+
     <TextView
         android:id="@+id/tv_trailer_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/image_button_trailer"
+        app:layout_constraintLeft_toRightOf="@+id/image_button_trailer"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/image_button_trailer"
         android:maxLines="2"
         android:ellipsize="end"
@@ -23,23 +34,14 @@
         android:id="@+id/tv_trailer_site"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/image_button_trailer"
         app:layout_constraintTop_toBottomOf="@+id/tv_trailer_name"
         android:layout_marginEnd="@dimen/horizontal_margin"
         android:layout_marginStart="@dimen/horizontal_margin"
         style="@style/Base.TextAppearance.AppCompat.Small"
         tools:text="Youtube"/>
 
-    <ImageView
-        android:id="@+id/image_button_trailer"
-        android:contentDescription="@string/button_trailer_description"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_width="@dimen/button_play_size"
-        android:layout_height="@dimen/button_play_size"
-        android:src="@drawable/btn_play_trailer"
-        android:scaleType="fitXY"
-        android:clickable="true"/>
+
 
 
 

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="image_cover_height">278dp</dimen>
+    <dimen name="image_cover_width">228dp</dimen>
+    <dimen name="image_cover_height">342dp</dimen>
     <dimen name="progressbar_default_size">42dp</dimen>
     <dimen name="vertical_margin">16dp</dimen>
     <dimen name="horizontal_margin">16dp</dimen>
