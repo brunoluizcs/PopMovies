@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.bomcodigo.popmovies.R;
 import com.bomcodigo.popmovies.adapters.MovieContentAdapter;
@@ -26,42 +27,46 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
 
-import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
-
 public class MainActivity extends AppCompatActivity implements MovieProxy.Callbacks, MovieContentAdapter.ItemClickListener {
     public static final String EXTRA_MOVIE = "extra_movie";
+    public static final String EXTRA_MOVIE_ID = "extra_movie_id";
+    public static final String EXTRA_MOVIE_TITLE = "extra_movie_title";
     private static final String EXTRA_OBJECT_STATE = "extra_object_state";
     private static final String EXTRA_OBJECT_PAGE = "extra_object_page";
+    private static final String EXTRA_OBJECT_TOTAL_PAGE = "extra_object_total_page";
 
     private final String TAG = MainActivity.class.getSimpleName();
-    private final int GRID_DEFAULT_SPAN_PORTRAIT = 2;
-    private final int GRID_DEFAULT_SPAN_LANDSCAPE = 3;
 
     private RecyclerView mMovieContentRecyclerView;
     private MovieContentAdapter mAdapter;
     private MovieProxy mMovieProxy;
     private ProgressBar mLoadingIndicator;
     private OrderType mOrderType;
-    private int lastPage = 1;
+    private int mTotalPage = 1;
+    private int mLastPage = 1;
+    private TextView mNoDataTextView;
 
     private final RecyclerView.OnScrollListener mOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             if (dy>0){
-                int visibleItemCount = recyclerView.getLayoutManager().getChildCount();
-                int lastVisible = ((GridLayoutManager) recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition();
-                int totalItemCount = recyclerView.getLayoutManager().getItemCount();
-                if((visibleItemCount + lastVisible) >= totalItemCount){
-                    Log.d(TAG, "onScrolled: loading " + lastPage);
-                    try {
-                        if (mMovieProxy!=null) {
-                            showLoadingIndicator();
-                            mMovieProxy.listMovies(mOrderType, lastPage + 1);
-                            recyclerView.removeOnScrollListener(this);
-                            lastPage++;
+                if (mLastPage < mTotalPage) {
+                    int visibleItemCount = recyclerView.getLayoutManager().getChildCount();
+                    int lastVisible = ((GridLayoutManager) recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition();
+                    int totalItemCount = recyclerView.getLayoutManager().getItemCount();
+                    if((visibleItemCount + lastVisible) >= totalItemCount){
+                        Log.d(TAG, "onScrolled: loading " + mLastPage);
+                        try {
+                            if (mMovieProxy!=null) {
+                                showLoadingIndicator();
+
+                                mMovieProxy.listMovies(mOrderType, mLastPage + 1);
+                                recyclerView.removeOnScrollListener(this);
+                                mLastPage++;
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
-                    } catch (IOException e) {
-                        e.printStackTrace();
                     }
                 }
             }
@@ -72,10 +77,9 @@ public class MainActivity extends AppCompatActivity implements MovieProxy.Callba
     protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        this.mOrderType = OrderType.POPULAR;
+        this.mOrderType = OrderType.Popular;
 
-        int intOrientation = getResources().getConfiguration().orientation;
-        int gridSpan = intOrientation == ORIENTATION_LANDSCAPE ? GRID_DEFAULT_SPAN_LANDSCAPE : GRID_DEFAULT_SPAN_PORTRAIT;
+        int gridSpan = getResources().getInteger(R.integer.grid_col_span);
         GridLayoutManager mGridLayoutManager = new GridLayoutManager(this, gridSpan);
 
         this.mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
@@ -83,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements MovieProxy.Callba
         this.mMovieContentRecyclerView.setLayoutManager(mGridLayoutManager);
         this.mMovieContentRecyclerView.setHasFixedSize(true);
         this.mMovieContentRecyclerView.addOnScrollListener(mOnScrollListener);
+        this.mNoDataTextView = (TextView) findViewById(R.id.tv_no_data_available);
 
         this.mAdapter = new MovieContentAdapter(this);
         this.mMovieContentRecyclerView.setAdapter(mAdapter);
@@ -91,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements MovieProxy.Callba
             boolean hasCache = savedInstanceState != null && ! TextUtils.isEmpty(savedInstanceState.getString(EXTRA_OBJECT_STATE,""));
             this.mMovieProxy = new MovieProxy(this);
             if (! hasCache) {
-                this.mMovieProxy.listMovies(this.mOrderType,lastPage);
+                this.mMovieProxy.listMovies(this.mOrderType, mLastPage);
                 this.showLoadingIndicator();
             }
         } catch (IOException e) {
@@ -114,9 +119,11 @@ public class MainActivity extends AppCompatActivity implements MovieProxy.Callba
             this.mMovieContentRecyclerView.setVisibility(View.VISIBLE);
             this.hideLoadingIndicator();
             this.mAdapter.addAll(movieBaseResult.getResults());
+            this.mTotalPage = movieBaseResult.getTotalPages();
 
             mMovieContentRecyclerView.clearOnScrollListeners();
             mMovieContentRecyclerView.addOnScrollListener(mOnScrollListener);
+            showNoDataMessage(this.mAdapter.getItemCount() == 0);
             Log.d(TAG, "onSuccess: Size " + movieBaseResult.getResults().size() );
             Log.d(TAG, "onSuccess: CurrentPage " + movieBaseResult.getPage());
             Log.d(TAG, "onSuccess: " + mAdapter.getItemCount());
@@ -136,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements MovieProxy.Callba
             @Override
             public void onClick(View view) {
                 try {
-                    mMovieProxy.listMovies(mOrderType,lastPage);
+                    mMovieProxy.listMovies(mOrderType, mLastPage);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -155,28 +162,38 @@ public class MainActivity extends AppCompatActivity implements MovieProxy.Callba
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_popular){
-            this.mOrderType = OrderType.POPULAR;
+            this.mOrderType = OrderType.Popular;
             changeOrder();
             return true;
         }else if (id == R.id.action_top_rated){
-            this.mOrderType = OrderType.TOP_RATED;
+            this.mOrderType = OrderType.TopRated;
+            changeOrder();
+            return true;
+        }else if (id == R.id.action_bookmark){
+            this.mOrderType = OrderType.BookMark;
             changeOrder();
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
     private void changeOrder() {
         try {
             this.showLoadingIndicator();
-            this.lastPage = 1;
+            this.mLastPage = 1;
+            this.mTotalPage = 1;
             this.mMovieContentRecyclerView.scrollToPosition(0);
             this.mAdapter.clear();
             this.mMovieProxy.cancelRequest();
-            this.mMovieProxy.listMovies(this.mOrderType,this.lastPage);
+            this.mMovieProxy.listMovies(this.mOrderType,this.mLastPage);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void showNoDataMessage(boolean show){
+        mNoDataTextView.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -195,7 +212,9 @@ public class MainActivity extends AppCompatActivity implements MovieProxy.Callba
                 Type apiResultType = new TypeToken<List<Movie>>() {}.getType();
                 List<Movie> movies = new BaseModelParser<List<Movie>>().parserStringToObject(json,apiResultType);
                 this.mAdapter.addAll(movies);
-                this.lastPage = savedInstanceState.getInt(EXTRA_OBJECT_PAGE,1);
+                this.mLastPage = savedInstanceState.getInt(EXTRA_OBJECT_PAGE,1);
+                this.mTotalPage = savedInstanceState.getInt(EXTRA_OBJECT_TOTAL_PAGE,1);
+                showNoDataMessage(this.mAdapter.getItemCount() == 0);
             }
         }
     }
@@ -206,7 +225,8 @@ public class MainActivity extends AppCompatActivity implements MovieProxy.Callba
         if (this.mAdapter != null ){
             String json = new BaseModelParser<List<Movie>>().parserObjectToString(this.mAdapter.getDataSet());
             outState.putString(EXTRA_OBJECT_STATE,json);
-            outState.putInt(EXTRA_OBJECT_PAGE,lastPage);
+            outState.putInt(EXTRA_OBJECT_PAGE, mLastPage);
+            outState.putInt(EXTRA_OBJECT_TOTAL_PAGE,mTotalPage);
         }
     }
 }

@@ -38,4 +38,14 @@ public class BaseResult<T>{
     public int getTotalPages() {
         return totalPages;
     }
+
+    public BaseResult() {
+    }
+
+    public BaseResult(List<T> results, int page, int totalResults, int totalPages) {
+        this.results = results;
+        this.page = page;
+        this.totalResults = totalResults;
+        this.totalPages = totalPages;
+    }
 }

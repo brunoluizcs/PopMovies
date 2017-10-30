@@ -2,12 +2,18 @@
 <resources>
     <dimen name="image_cover_height">278dp</dimen>
     <dimen name="progressbar_default_size">42dp</dimen>
-    <dimen name="padding_default">16dp</dimen>
     <dimen name="vertical_margin">16dp</dimen>
-    <dimen name="font_extra_large">25sp</dimen>
     <dimen name="horizontal_margin">16dp</dimen>
     <dimen name="font_large">16sp</dimen>
-    <dimen name="font_medium">14sp</dimen>
-    <dimen name="font_small">12sp</dimen>
-    <dimen name="font_smaller">10sp</dimen>
+    <dimen name="horizontal_margin_half">8dp</dimen>
+    <dimen name="vertical_margin_half">8dp</dimen>
+    <dimen name="min_cover_detail_height">100dp</dimen>
+    <dimen name="min_cover_detail_width">100dp</dimen>
+    <dimen name="card_default_radius">4dp</dimen>
+    <dimen name="card_default_elevation">6dp</dimen>
+    <dimen name="detailButtonFixedSize">100dp</dimen>
+    <dimen name="detail_backdrop_height">224dp</dimen>
+    <dimen name="button_play_size">52dp</dimen>
+
+
 </resources>

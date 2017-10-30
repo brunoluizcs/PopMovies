@@ -63,12 +63,12 @@ public class MovieContentAdapter extends RecyclerView.Adapter<MovieContentAdapte
 
     public class MovieContentHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         final Context context;
-        ImageView coverImageView;
+        ImageView mCoverImageView;
         public MovieContentHolder(View itemView) {
             super(itemView);
             context = itemView.getContext();
-            coverImageView = (ImageView) itemView.findViewById(R.id.iv_movie_cover);
-            coverImageView.setOnClickListener(this);
+            mCoverImageView = (ImageView) itemView.findViewById(R.id.iv_movie_cover);
+            mCoverImageView.setOnClickListener(this);
         }
 
         public void bind(Movie movie){
@@ -79,7 +79,7 @@ public class MovieContentAdapter extends RecyclerView.Adapter<MovieContentAdapte
                     .appendEncodedPath(movie.getPosterPath())
                     .build();
             Uri uri = uriBuilder.build();
-            Picasso.with(context).load(uri.toString()).into(coverImageView);
+            Picasso.with(context).load(uri.toString()).into(mCoverImageView);
         }
 
         @Override

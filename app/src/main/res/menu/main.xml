@@ -11,4 +11,9 @@
         android:id="@+id/action_popular"
         android:title="@string/title_popular"
         app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_bookmark"
+        android:title="@string/title_bookmark"
+        app:showAsAction="never"/>
 </menu>

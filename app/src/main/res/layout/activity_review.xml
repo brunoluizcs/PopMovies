@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge
-    android:id="@+id/activity_main"
+    android:id="@+id/activity_review"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,25 +8,23 @@
     tools:context="com.bomcodigo.popmovies.ui.MainActivity">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_movie_content"
+        android:id="@+id/recycler_reviews"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
     <ProgressBar
-        android:id="@+id/pb_loading_indicator"
+        android:id="@+id/pb_review_loading_indicator"
         android:layout_width="@dimen/progressbar_default_size"
         android:layout_height="@dimen/progressbar_default_size"
-        android:layout_gravity="center"
-        android:visibility="invisible"/>
-
-
+        android:layout_gravity="center"/>
     <TextView
-        android:id="@+id/tv_no_data_available"
+        android:id="@+id/tv_no_review_available"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/no_data_available"
+        android:text="@string/no_review_available"
         android:layout_gravity="center"
         android:visibility="gone"
         style="@style/Base.TextAppearance.AppCompat.Large"/>
+
 
 </merge>

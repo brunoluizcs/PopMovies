@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Pop Movies</string>
-    <string name="api_key">{PUT YOUR KEY HERE}</string>
-    <string name="api_base_url">https://api.themoviedb.org/3/</string>
-    <string name="api_base_url_for_images">https://image.tmdb.org/t/p/w342</string>
+    <string name="api_key" translatable="false">{PUT_YOUR_KEY_HERE}</string>
+    <string name="api_base_url" translatable="false">https://api.themoviedb.org/3/</string>
+    <string name="api_base_url_for_images" translatable="false">https://image.tmdb.org/t/p/w342</string>
     <string name="api_default_language">en</string>
     <string name="title_popular">Popular</string>
     <string name="title_top_rated">Top Rated</string>
@@ -12,5 +12,15 @@
     <string name="image_cover_description">Image cover of some movie</string>
     <string name="network_error">Internet connection not available, check your connection and try again</string>
     <string name="retry">Try Again</string>
+    <string name="label_trailer">Trailer:</string>
+    <string name="error_sync_trailer">Error to sync trailers, try again later</string>
+    <string name="button_trailer_description">Button to play the trailer</string>
+    <string name="youtube_base_url" translatable="false">http://www.youtube.com/watch?v=%s</string>
+    <string name="title_bookmark">Favorites</string>
+    <string name="prompt_mark_as_favorite">Mark as Favorite</string>
+    <string name="prompt_remove_favorite">Remove Favorite</string>
+    <string name="prompt_show_reviews">Show Reviews</string>
+    <string name="no_data_available">No data available :(</string>
+    <string name="no_review_available">No Review Available :(</string>
 
 </resources>

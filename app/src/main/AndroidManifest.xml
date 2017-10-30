@@ -5,7 +5,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-
     <application
         android:name=".PopMoviesApplication"
         android:allowBackup="true"
@@ -21,9 +20,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.DetailActivity">
-        </activity>
+
+        <activity android:name=".ui.DetailActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity android:name=".ui.ReviewActivity"/>
+
+        <provider
+            android:name=".data.MovieContentProvider"
+            android:authorities="com.bomcodigo.popmovies"
+            android:exported="false" />
+
     </application>
 
 </manifest>

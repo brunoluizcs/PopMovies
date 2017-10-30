@@ -67,6 +67,7 @@ public class Movie implements Parcelable {
     @SerializedName("vote_average")
     private double voteAverage;
 
+
     public String getPosterPath() {
         return posterPath;
     }
@@ -140,7 +141,10 @@ public class Movie implements Parcelable {
         return 0;
     }
 
-    private Movie(Parcel in) {
+    public Movie() {
+    }
+
+    public Movie(Parcel in) {
         posterPath = in.readString();
         adult = in.readInt() == 1;
         overview = in.readString();
@@ -177,4 +181,34 @@ public class Movie implements Parcelable {
 
 
     }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setOriginalTitle(String originalTitle) {
+        this.originalTitle = originalTitle;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setVoteAverage(double voteAverage) {
+        this.voteAverage = voteAverage;
+    }
+
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
+    }
+
+
 }
